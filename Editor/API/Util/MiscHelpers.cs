@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using nadena.dev.ndmf.runtime;
 using UnityEngine;
 
 #endregion
@@ -32,10 +33,7 @@ namespace nadena.dev.ndmf.util
         [CanBeNull]
         public static string AvatarRootPath(this GameObject child)
         {
-            if (child == null) return null;
-            var avatar = PlatformExtensions.FindAvatarInParents(child.transform);
-            if (avatar == null) return null;
-            return RelativePath(avatar.gameObject, child);
+            return RuntimeUtil.AvatarRootPath(child);
         }
 
         [CanBeNull]

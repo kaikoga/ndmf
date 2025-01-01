@@ -32,12 +32,12 @@ namespace nadena.dev.ndmf.runtime
     }
 #endif
 
-    public sealed class PlatformRegistry
+    sealed class PlatformRegistry
     {
-        public static readonly PlatformRegistry Instance = new PlatformRegistry();
+        internal static readonly PlatformRegistry Instance = new PlatformRegistry();
 
         INDMFPlatformProvider[] PlatformProviders { get; }
-        Type[] AvatarRootComponentTypes { get; }
+        internal Type[] AvatarRootComponentTypes { get; }
 
         internal bool IsAvatarRoot(GameObject gameObject)
         {

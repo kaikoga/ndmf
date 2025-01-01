@@ -4,10 +4,6 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-#if NDMF_VRCSDK3_AVATARS
-using VRC.SDK3.Avatars.Components;
-#endif
-
 namespace nadena.dev.ndmf.runtime
 {
     /// <summary>
@@ -93,14 +89,7 @@ namespace nadena.dev.ndmf.runtime
         /// <returns></returns>
         public static bool IsAvatarRoot(Transform target)
         {
-#if NDMF_VRCSDK3_AVATARS
-            return target.TryGetComponent<VRCAvatarDescriptor>(out _);
-#else            
-            if (!target.TryGetComponent<Animator>(out _)) return false;
-
-            var parent = target.transform.parent;
-            return !(parent && parent.GetComponentInParent<Animator>());
-#endif
+            return PlatformRegistry.Instance.IsAvatarRoot(target.gameObject);
         }
 
         /// <summary>
@@ -129,11 +118,7 @@ namespace nadena.dev.ndmf.runtime
             else
             {
                 GameObject priorRoot = null;
-#if NDMF_VRCSDK3_AVATARS
-                var candidates = root.GetComponentsInChildren<VRCAvatarDescriptor>();
-#else
-                var candidates = root.GetComponentsInChildren<Animator>();
-#endif
+                var candidates = PlatformRegistry.Instance.GetAvatarRootsInChildren(root);
                 foreach (var candidate in candidates)
                 {
                    
@@ -172,13 +157,9 @@ namespace nadena.dev.ndmf.runtime
         {
             foreach (var root in scene.GetRootGameObjects())
             {
-#if NDMF_VRCSDK3_AVATARS
-                foreach (var avatar in root.GetComponentsInChildren<VRCAvatarDescriptor>())
-#else            
-                foreach (var avatar in root.GetComponentsInChildren<Animator>())
-#endif
+                foreach (var candidate in PlatformRegistry.Instance.GetAvatarRootsInChildren(root))
                 {
-                    if (IsAvatarRoot(avatar.transform)) yield return avatar.transform;
+                    if (IsAvatarRoot(candidate)) yield return candidate;
                 }
             }
         }

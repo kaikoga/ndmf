@@ -15,7 +15,11 @@ namespace nadena.dev.ndmf.builtin
             var primaryPlatform = PlatformRegistry.GetPrimaryPlatformForAvatar(context.AvatarRootObject);
             context.GetState<PrimaryPlatformHolder>().platform = primaryPlatform;
 
-            var cai = primaryPlatform?.ExtractCommonAvatarInfo(context.AvatarRootObject) ?? new CommonAvatarInfo();
+            var cai = new CommonAvatarInfo();
+            if (primaryPlatform != null && primaryPlatform.QualifiedName != context.PlatformProvider.QualifiedName)
+            {
+                cai.MergeFrom(primaryPlatform.ExtractCommonAvatarInfo(context.AvatarRootObject));
+            }
             if (primaryPlatform != GenericPlatform.Instance)
             {
                 cai.MergeFrom(GenericPlatform.Instance.ExtractCommonAvatarInfo(context.AvatarRootObject));

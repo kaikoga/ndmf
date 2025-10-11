@@ -30,7 +30,7 @@ namespace nadena.dev.ndmf
                 .Run("Generate portable components", context =>
                 {
                     context.GetState<PrimaryPlatformHolder>().platform
-                        .GeneratePortableComponents(context.AvatarRootObject, false);
+                        ?.GeneratePortableComponents(context.AvatarRootObject, false);
                 });
         }
     }

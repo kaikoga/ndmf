@@ -1,11 +1,13 @@
-﻿using nadena.dev.ndmf.platform;
+﻿#nullable enable
+
+using nadena.dev.ndmf.platform;
 using nadena.dev.ndmf.runtime.components;
 
 namespace nadena.dev.ndmf.builtin
 {
     internal class PrimaryPlatformHolder
     {
-        public INDMFPlatformProvider platform;
+        public INDMFPlatformProvider? platform;
     }
     
     internal class SyncPlatformConfigPass : Pass<SyncPlatformConfigPass>
